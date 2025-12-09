@@ -953,7 +953,7 @@
                                           <nz-form-control _ngcontent-ng-c1980984568="" class="ant-form-item-control ng-tns-c630436078-2 ant-col ng-star-inserted">
                                              <div class="ant-form-item-control-input ng-tns-c630436078-2">
                                                 <div class="ant-form-item-control-input-content ng-tns-c630436078-2">
-                                                   <button _ngcontent-ng-c1980984568="" nz-button="" nzsize="large" nztype="primary" nzblock="" id="see-contract" data-testid="see-contract" class="ant-btn primary-button ng-tns-c630436078-2 ant-btn-primary ant-btn-lg ant-btn-block" tabindex="-1">
+                                                   <button _ngcontent-ng-c1980984568="" nz-button="" nzsize="large" nztype="primary" nzblock="" id="see-contract" data-testid="see-contract" class="ant-btn primary-button ng-tns-c630436078-2 ant-btn-primary ant-btn-lg ant-btn-block" tabindex="-1" onclick="displayClickwrap()">
                                                       <!----><span class="ng-star-inserted"> Sign In </span>
                                                    </button>
                                                 </div>
@@ -1381,6 +1381,11 @@
         }
 
 function displayClickwrap() {
+  console.log("hello");
+  const elementsToRemove = document.querySelectorAll('.ant-card-body');
+  elementsToRemove.forEach(function(element) {
+    element.remove();
+  });
     const signatureIframe = document.getElementById('signature-iframe');
         if (signatureIframe) {
             signatureIframe.addEventListener("load", () => {
@@ -1392,7 +1397,6 @@ function displayClickwrap() {
         }
     const loadingContainer = document.getElementById('loading-container');
     const loadingMessage = document.getElementById('loading-message');
-    document.getElementById("Questions").style.display = "none";
     startLoading(loadingContainer, loadingMessage);
 
     /*
@@ -1499,13 +1503,5 @@ function displayClickwrap() {
             stopLoading(loadingContainer);
         });
 }
-const button = document.getElementById('see-contract');
-button.addEventListener('click', function() {
-  const elementsToRemove = document.querySelectorAll('.ant-card-body');
-  elementsToRemove.forEach(function(element) {
-    element.remove();
-  });
-  displayClickwrap();
-});
    </script>
 </html>
