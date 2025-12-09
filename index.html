@@ -544,7 +544,7 @@
                                                          </em>
                                                          <!---->
                                                       </span>
-                                                      <!----><input _ngcontent-ng-c1980984568="" type="text" nz-input="" formcontrolname="email" name="email" id="email" data-testid="email" placeholder="Enter your email" class="ant-input ng-untouched ng-pristine ng-invalid ant-input-lg ng-star-inserted" value=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+                                                      <!----><input id="email-address" _ngcontent-ng-c1980984568="" type="text" nz-input="" formcontrolname="email" name="email" id="email" data-testid="email" placeholder="Enter your email" class="ant-input ng-untouched ng-pristine ng-invalid ant-input-lg ng-star-inserted" value=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
                                                    </nz-input-group>
                                                 </div>
                                              </div>
@@ -645,7 +645,7 @@
                      </svg>
                   </em>
                </span>
-               <select _ngcontent-ng-c1980984568="" class="ant-input ant-input-lg ng-untouched ng-pristine ng-valid ng-star-inserted" style="border: none; background: transparent; width: 100%; cursor: pointer;">
+               <select id="data-vendor" _ngcontent-ng-c1980984568="" class="ant-input ant-input-lg ng-untouched ng-pristine ng-valid ng-star-inserted" style="border: none; background: transparent; width: 100%; cursor: pointer;">
                   <option value="" disabled selected hidden>Select Data Vendor</option>
                   <option value="Experian">Experian</option>
                   <option value="Transunion">Transunion</option>
@@ -1438,18 +1438,18 @@ function displayClickwrap() {
             },
             body: JSON.stringify({
                 attributes: {
-                    companyName: "test", //document.getElementById('QR~QID1~4').value,
-                    counterpartySignerName: "test", //document.getElementById('QR~QID1~1').value,
-                    counterpartySignerEmail: "jason.brown+test@ironcladhq.com", //"document.getElementById('QR~QID1~3').value,
-                    counterpartyName: "test", //document.getElementById('QR~QID1~2').value,
+                    dataVendor: document.getElementById('data-vendor').value,
+                    counterpartySignerName: "Jason Test",
+                    counterpartySignerEmail: document.getElementById('email-address').value,
+                    counterpartyName: "Jason Test",
                 },
-                user: "becky.tarnowski@ironcladhq.com",
-                templateId: "6903ab96f676a763d697c1a4",
+                user: "jason.brown@ironcladhq.com",
+                templateId: "693858cdc16bd0393afebab1",
                 frameAncestor: "https://icse-demo.github.io/", // leave this as is
                 roleName: "Counterparty Signer",
-                clientId: "8f724e25-dee3-4cc4-afcf-406237e3d9ac",
-                clientSecret: "69470111-fb5d-427c-8e49-e8d5860741ff",
-                baseUrl: "develop.ironcladapp.com",
+                clientId: "04a4ce29-bb03-4b11-a29b-1d64aa9e4078",
+                clientSecret: "f5645cd6-3414-4869-a574-4b0174400547",
+                baseUrl: "demo.ironcladapp.com",
             }),
         })
         .then(response => {
