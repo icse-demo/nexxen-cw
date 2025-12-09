@@ -1319,7 +1319,6 @@ function handleCWMessage(message) {
               formValues: {
                   counterpartyName: 'Example Counterparty',
               }
-          },      // Optional styles object:
       styles: {
         //checkbox: {
         //  uncheckedBorderColor: "#007490",
@@ -1329,26 +1328,27 @@ function handleCWMessage(message) {
         //},
         backgroundColor: "transparent", // default value - shown for structure
         acceptanceLanguageText: {
-          fontSize: "8px",
+          fontSize: "12px",
           //color: "#00a66f",
           //fontWeight: "500",
-          //fontFamily: {
-          //  type: "google",
-          //  fontFamilyName: "Open Sans",
-          //},
+          fontFamily: {
+            type: "google",
+            fontFamilyName: "Open Sans",
+          },
           fontStyle: "normal", // default value - shown for structure
           textDecoration: undefined, // default value - shown for structure
         },
         documentLink: {
           //color: "#006c47",
           //fontWeight: "600",
-          //fontFamily: {
-          //  type: "google",
-          //  fontFamilyName: "Open Sans",
-          //},
+          fontFamily: {
+            type: "google",
+            fontFamilyName: "Open Sans",
+          },
           fontStyle: "normal", // default value - shown for structure
-          fontSize: "8px" // value inherited from acceptanceLanguageText.fontSize - shown for structure
+          fontSize: "12px" // value inherited from acceptanceLanguageText.fontSize - shown for structure
         },
+      },
       },
           workflowTemplateId: WORKFLOW_TEMPLATE_ID
       });
