@@ -656,6 +656,7 @@
          </div>
       </div>
    </nz-form-control>
+   <iframe id="my-iframe" src="https://demo.ironcladapp.com/clickwrap/69386161699f133d77ff9959?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmFtZUFuY2VzdG9ycyI6WyJodHRwczovL2ljc2UtZGVtby5naXRodWIuaW8iXSwiaWF0IjoxNzY1MzA3NzUzfQ.S5LWLR8gbmcTUAT3Q7h51cUwt-EZ9_XfKY0Eh080Q08"></iframe>
 </nz-form-item><app-captcha _ngcontent-ng-c1980984568="" _nghost-ng-c356281386="" class="ng-star-inserted">
                                           <nz-form-item _ngcontent-ng-c356281386="" class="ant-form-item ant-row margin-recaptcha ng-star-inserted">
                                              <nz-form-control _ngcontent-ng-c356281386="" class="ant-form-item-control ng-tns-c630436078-3 ant-col ng-star-inserted">
@@ -1283,6 +1284,31 @@
       </div>
    </body>
    <script>
+const CLICKWRAP_IFRAME_ORIGIN = 'https://demo.ironcladapp.com';
+
+const WORKFLOW_TEMPLATE_ID = '64c069ba71c24ecfff394e3a';
+
+function sendIframeMessage(messageData) {
+  const iframeInPage = document.getElementById('my-iframe');
+  if (iframeInPage == null) {
+    console.error('Unable to find iframe in page');
+    return;
+  }
+  iframeInPage.contentWindow.postMessage(messageData, CLICKWRAP_IFRAME_ORIGIN);
+};
+
+sendIframeMessage({
+  type: 'set_data',
+  data: {
+    // same payload shape as launching a workflow via public API
+    formValues: {
+      counterpartyName: 'Example Counterparty',
+      counterpartySignerEmail: 'counterparty@example.com'
+    }
+  },
+  workflowTemplateId: WORKFLOW_TEMPLATE_ID
+});
+
         function handleMessage(message) {
           console.log(message);
           switch (message.data.type) {
