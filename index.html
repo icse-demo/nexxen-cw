@@ -656,7 +656,7 @@
          </div>
       </div>
    </nz-form-control>
-   <iframe id="my-iframe" src="https://demo.ironcladapp.com/clickwrap/69386161699f133d77ff9959?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmFtZUFuY2VzdG9ycyI6WyJodHRwczovL2ljc2UtZGVtby5naXRodWIuaW8iXSwiaWF0IjoxNzY1MzA3NzUzfQ.S5LWLR8gbmcTUAT3Q7h51cUwt-EZ9_XfKY0Eh080Q08&&parent=https://icse-demo.github.io" style="display:none"></iframe>
+   <iframe id="my-iframe" src="https://demo.ironcladapp.com/clickwrap/69386161699f133d77ff9959?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmFtZUFuY2VzdG9ycyI6WyJodHRwczovL2ljc2UtZGVtby5naXRodWIuaW8iXSwiaWF0IjoxNzY1MzA3NzUzfQ.S5LWLR8gbmcTUAT3Q7h51cUwt-EZ9_XfKY0Eh080Q08&&parent=https://icse-demo.github.io" style="display:flex"></iframe>
 </nz-form-item><app-captcha _ngcontent-ng-c1980984568="" _nghost-ng-c356281386="" class="ng-star-inserted">
                                           <nz-form-item _ngcontent-ng-c356281386="" class="ant-form-item ant-row margin-recaptcha ng-star-inserted">
                                              <nz-form-control _ngcontent-ng-c356281386="" class="ant-form-item-control ng-tns-c630436078-3 ant-col ng-star-inserted">
@@ -1297,16 +1297,75 @@ function sendIframeMessage(messageData) {
   iframeInPage.contentWindow.postMessage(messageData, CLICKWRAP_IFRAME_ORIGIN);
 };
 
-sendIframeMessage({
-  type: 'set_data',
-  data: {
-    // same payload shape as launching a workflow via public API
-    formValues: {
-      counterpartyName: 'Example Counterparty',
-      counterpartySignerEmail: 'counterparty@example.com'
-    }
-  },
-  workflowTemplateId: WORKFLOW_TEMPLATE_ID
+function handleCWMessage(message) {
+  if (message.origin !== CLICKWRAP_IFRAME_ORIGIN) {
+    return;
+  }
+
+  switch (message.data.type) {
+    case 'clickwrap_initialized':
+      // loaded, can now set data
+      console.log("initialized");
+      sendIframeMessage({
+          type: 'set_data',
+          data: {
+              formValues: {
+                  counterpartyName: 'Example Counterparty',
+                  counterpartySignerEmail: 'counterparty@example.com'
+              }
+          },
+          workflowTemplateId: WORKFLOW_TEMPLATE_ID
+      });
+      break;
+    case 'clickwrap_is_loading':
+      // data has been set, clickwrap is loading within iframe
+      console.log("is loading");
+      break;
+    case 'clickwrap_load_succeeded':
+      // clickwrap is loaded and is now interactable
+      console.log("load succeeded");
+      break;
+    case 'clickwrap_load_failed':
+      // clickwrap loading failed, check data and try setting data again
+      // clickwrap loading failed will post if any invalid style property is provided
+      console.log("load failed");
+      break;
+    case 'clickwrap_link_clicked':
+      // notification that the user has downloaded a clickwrap document
+      console.log("link clicked");
+      break;
+    case 'clickwrap_checkbox_checked':
+      // The user has checked the checkbox for acceptance.
+      // If this is a required part of your user flow, other dependent actions,
+      // e.g. a form submit button, can now be enabled.
+      // Update your app state accordingly.
+      // It is now permissable to post the `send_acceptance` event to the iframe.
+      console.log("checkbox checked");
+      break;
+    case 'clickwrap_checkbox_unchecked':
+      // The user has previously checked the checkbox for acceptance,
+      // but has now unchecked the box.
+      // If this is a required part of your user flow, other dependent actions,
+      // e.g. a form submit button, can now be disabled.
+      // Update your app state accordingly.
+      console.log("checkbox unchecked");
+      break;
+    case 'clickwrap_acceptance_succceeded':
+      // The acceptance has been successfully sent and recorded.
+      console.log("acceptance succeeded");
+      break;
+    case 'clickwrap_acceptance_failed':
+      // The acceptance was not successfully sent and recorded.
+      console.log("acceptance failed");
+      break;
+    default:
+      console.error('invalid message', { message });
+  }
+}
+
+const iframe = document.getElementById('my-iframe');
+iframe.addEventListener("load", () => {
+  window.addEventListener("message", handleCWMessage);
 });
 
         function handleMessage(message) {
