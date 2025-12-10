@@ -544,7 +544,7 @@
                                                          </em>
                                                          <!---->
                                                       </span>
-                                                      <!----><input id="email-address" _ngcontent-ng-c1980984568="" type="text" nz-input="" formcontrolname="email" name="email" id="email" data-testid="email" placeholder="Enter your email" class="ant-input ng-untouched ng-pristine ng-invalid ant-input-lg ng-star-inserted" value=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+                                                      <!----><input id="email-address" _ngcontent-ng-c1980984568="" type="text" nz-input="" formcontrolname="email" name="email" data-testid="email" placeholder="Enter your email" class="ant-input ng-untouched ng-pristine ng-invalid ant-input-lg ng-star-inserted" value=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
                                                    </nz-input-group>
                                                 </div>
                                              </div>
@@ -961,7 +961,7 @@
                                           <nz-form-control _ngcontent-ng-c1980984568="" class="ant-form-item-control ng-tns-c630436078-2 ant-col ng-star-inserted">
                                              <div class="ant-form-item-control-input ng-tns-c630436078-2">
                                                 <div class="ant-form-item-control-input-content ng-tns-c630436078-2">
-                                                   <button _ngcontent-ng-c1980984568="" nz-button="" nzsize="large" nztype="primary" nzblock="" id="see-contract" data-testid="see-contract" class="ant-btn primary-button ng-tns-c630436078-2 ant-btn-primary ant-btn-lg ant-btn-block" tabindex="-1" onclick="displayClickwrap()">
+                                                   <button _ngcontent-ng-c1980984568="" nz-button="" type="button" nzsize="large" nztype="primary" nzblock="" id="see-contract" data-testid="see-contract" class="ant-btn primary-button ng-tns-c630436078-2 ant-btn-primary ant-btn-lg ant-btn-block" tabindex="-1" onclick="event.preventDefault(); displayClickwrap()">
                                                       <!----><span class="ng-star-inserted"> Sign In </span>
                                                    </button>
                                                 </div>
@@ -1295,6 +1295,8 @@ const CLICKWRAP_IFRAME_ORIGIN = 'https://demo.ironcladapp.com';
 
 const WORKFLOW_TEMPLATE_ID = '69386161699f133d77ff9959';
 
+const CLICKWRAP_ACCEPTED = false;
+
 function sendIframeMessage(messageData) {
   const iframeInPage = document.getElementById('my-iframe');
   if (iframeInPage == null) {
@@ -1384,11 +1386,13 @@ function handleCWMessage(message) {
       // If this is a required part of your user flow, other dependent actions,
       // e.g. a form submit button, can now be disabled.
       // Update your app state accordingly.
+      CLICKWRAP_ACCEPTED = false;
       console.log("checkbox unchecked");
       break;
     case 'clickwrap_acceptance_succceeded':
       // The acceptance has been successfully sent and recorded.
       console.log("acceptance succeeded");
+      CLICKWRAP_ACCEPTED = true;
       break;
     case 'clickwrap_acceptance_failed':
       // The acceptance was not successfully sent and recorded.
@@ -1503,8 +1507,26 @@ iframe.addEventListener("load", () => {
 
 function displayClickwrap() {
   console.log("hello");
-  var EMAIL_ADDRESS = document.getElementById("email-address").value;
+  var EMAIL_ADDRESS = document.getElementById("email-address").value.trim();
+  var PASSWORD = document.getElementById('password').value.trim();
   var DATA_VENDOR = document.getElementById("data-vendor").value;
+
+  if (!DATA_VENDOR || !PASSWORD || !EMAIL_ADDRESS) {
+    alert("Please fill in all required fields");
+    
+    if (!EMAIL_ADDRESS) document.getElementById("email-address").focus();
+    else if (!PASSWORD) document.getElementById('password').focus();
+    else if (!DATA_VENDOR) document.getElementById("data-vendor").focus();
+
+    return; // <--- This STOPS the rest of the display() function from running
+  }
+
+  if (!CLICKWRAP_ACCEPTED) {
+    alert("Please accept our terms and conditions");
+
+    return;
+  }
+
   const elementsToRemove = document.querySelectorAll('.ant-card-body');
   elementsToRemove.forEach(function(element) {
     element.remove();
