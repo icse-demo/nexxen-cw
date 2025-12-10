@@ -1379,6 +1379,7 @@ function handleCWMessage(message) {
       // Update your app state accordingly.
       // It is now permissable to post the `send_acceptance` event to the iframe.
       console.log("checkbox checked");
+      CLICKWRAP_ACCEPTED = true;
       break;
     case 'clickwrap_checkbox_unchecked':
       // The user has previously checked the checkbox for acceptance,
@@ -1392,7 +1393,6 @@ function handleCWMessage(message) {
     case 'clickwrap_acceptance_succceeded':
       // The acceptance has been successfully sent and recorded.
       console.log("acceptance succeeded");
-      CLICKWRAP_ACCEPTED = true;
       break;
     case 'clickwrap_acceptance_failed':
       // The acceptance was not successfully sent and recorded.
