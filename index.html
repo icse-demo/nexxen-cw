@@ -1365,6 +1365,10 @@ function handleCWMessage(message) {
       // It is now permissable to post the `send_acceptance` event to the iframe.
       console.log("checkbox checked");
       CLICKWRAP_ACCEPTED = true;
+      sendIframeMessage({
+        type: "send_acceptance",
+        workflowTemplateId: WORKFLOW_TEMPLATE_ID,
+      });
       break;
     case 'clickwrap_checkbox_unchecked':
       // The user has previously checked the checkbox for acceptance,
